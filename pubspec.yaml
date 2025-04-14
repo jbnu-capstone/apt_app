@@ -11,6 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  file_picker: ^5.0.0 # Add this line
 
   # State Management
   flutter_riverpod:
@@ -36,7 +37,12 @@ dependencies:
   flutter_dialogs: 
 
   # others
-  go_router: 
+  go_router: ^14.8.1 
+  flutter_pdfview: ^1.4.0
+  syncfusion_flutter_pdfviewer: ^29.1.37
+  pdf: ^3.11.3
+  printing: ^5.14.2
+  pdfx: ^2.9.0
 
 dev_dependencies:
   flutter_test:
@@ -58,8 +64,8 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-  # assets:
-  #   - assets/
+  assets:
+   - assets/icons/eraser.png
 
   # example:
   # fonts:

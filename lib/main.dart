@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_template/screens/s_home.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'dart:io';
+import 'screens/pdf_viewer_screen.dart';
 
 void removeHive() {}
 
@@ -27,6 +29,13 @@ class MyApp extends ConsumerWidget {
       GoRoute(
         path: '/',
         builder: (context, state) => const HomeScreen(),
+      ),
+      GoRoute(
+        path: '/pdf-viewer',
+        builder: (context, state) {
+          final pdfFile = state.extra as File;
+          return PdfViewerScreen(pdfFile: pdfFile);
+        },
       ),
       // GoRoute(
       //   path: '/register',
