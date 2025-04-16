@@ -21,6 +21,9 @@ dependencies:
   # Hive: DB
   hive:
   hive_flutter: 
+
+  # Login
+  google_sign_in:
   
   # managing app informations
   flutter_launcher_icons:
