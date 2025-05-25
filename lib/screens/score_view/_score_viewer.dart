@@ -18,19 +18,19 @@ class ScoreViewer extends StatefulWidget {
 }
 
 class _ScoreViewerState extends State<ScoreViewer> {
-  final List<Offset> _highlights = [];
+  Offset? _highlightPosition; // 단일 하이라이트 위치
   bool _isMicActive = false;
 
-  void _addHighlight(double x, double y) {
+  void _setHighlight(double x, double y) {
     setState(() {
-      _highlights.add(Offset(x, y));
+      _highlightPosition = Offset(x, y);
     });
     widget.onTap?.call(x, y);
   }
 
-  void _clearHighlights() {
+  void _clearHighlight() {
     setState(() {
-      _highlights.clear();
+      _highlightPosition = null;
     });
   }
 
@@ -38,6 +38,11 @@ class _ScoreViewerState extends State<ScoreViewer> {
     setState(() {
       _isMicActive = isActive;
     });
+  }
+
+  // 외부에서 하이라이트 위치를 설정할 수 있는 메서드
+  void moveHighlight(double x, double y) {
+    _setHighlight(x, y);
   }
 
   @override
@@ -78,7 +83,7 @@ class _ScoreViewerState extends State<ScoreViewer> {
                 ),
                 IconButton(
                   icon: Icon(Icons.clear_all),
-                  onPressed: _clearHighlights,
+                  onPressed: _clearHighlight,
                   tooltip: '하이라이트 지우기',
                 ),
               ],
@@ -90,7 +95,7 @@ class _ScoreViewerState extends State<ScoreViewer> {
               onTapDown: (TapDownDetails details) {
                 final RenderBox renderBox = context.findRenderObject() as RenderBox;
                 final localPosition = renderBox.globalToLocal(details.globalPosition);
-                _addHighlight(localPosition.dx, localPosition.dy - 60); // 상단 바 높이 보정
+                _setHighlight(localPosition.dx, localPosition.dy - 60); // 상단 바 높이 보정
               },
               child: Stack(
                 children: [
@@ -98,12 +103,13 @@ class _ScoreViewerState extends State<ScoreViewer> {
                   Positioned.fill(
                     child: PdfViewer(), // 기존에 구현된 PDF 뷰어
                   ),
-                  // 하이라이트들
-                  ..._highlights.map((offset) => Highlight(
-                        x: offset.dx,
-                        y: offset.dy,
-                        size: 24,
-                      )),
+                  // 단일 하이라이트
+                  if (_highlightPosition != null)
+                    Highlight(
+                      x: _highlightPosition!.dx,
+                      y: _highlightPosition!.dy,
+                      size: 24,
+                    ),
                 ],
               ),
             ),
