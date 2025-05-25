@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:logging/logging.dart';
+
+final _logger = Logger('LoginScreen');
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -21,7 +24,7 @@ class _LoginScreenState extends State<LoginScreen> {
         });
       }
     } catch (error) {
-      print('로그인 실패: $error');
+      _logger.severe('로그인 실패: $error');
     }
   }
 
