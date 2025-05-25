@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_template/providers/iterable_notifier.dart';
+import 'package:flutter_template/util/iterable_notifier.dart';
 
 class ListNotifier<T> extends IterableNotifier<T, List<T>> {
   ListNotifier(super.state);
