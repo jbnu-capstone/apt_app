@@ -48,7 +48,7 @@ class MyApp extends ConsumerWidget {
     final themeSeedColor = ref.watch(themeSeedColorProvider);
 
     return MaterialApp.router(
-      title: 'Allegder',
+      title: 'APT: Auto Page Turner',
       theme: ThemeData(
         brightness: Brightness.light,
         colorScheme: ColorScheme.fromSeed(
