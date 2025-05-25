@@ -1,21 +1,21 @@
+import 'dart:convert'; // JSON 인코딩/디코딩
 import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:path_provider/path_provider.dart'; // 로컬 저장소 경로 가져오기
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:go_router/go_router.dart';
-import 'dart:convert'; // JSON 인코딩/디코딩
-import 'package:pdfx/pdfx.dart'; // 페이지 렌더링용
 
-class PdfViewerScreen extends StatefulWidget {
+class PdfViewer extends StatefulWidget {
   final File pdfFile;
 
-  const PdfViewerScreen({Key? key, required this.pdfFile}) : super(key: key);
+  const PdfViewer({super.key, required this.pdfFile});
 
   @override
-  State<PdfViewerScreen> createState() => _PdfViewerScreenState();
+  State<PdfViewer> createState() => _PdfViewerState();
 }
 
-class _PdfViewerScreenState extends State<PdfViewerScreen> {
+class _PdfViewerState extends State<PdfViewer> {
   late PdfViewerController _pdfViewerController;
   final List<Offset> _points = []; // 드로잉 포인트 저장
   bool _isDrawing = false; // 드로잉 모드 활성화 여부
@@ -49,8 +49,12 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
       final filePath = '${directory.path}/drawing.json';
 
       // 드로잉 데이터를 JSON으로 변환
-      final drawingData =
-          _points.map((point) => {'x': point.dx, 'y': point.dy}).toList();
+      final drawingData = _points
+          .map((point) => {
+                'x': point.dx,
+                'y': point.dy
+              })
+          .toList();
       final jsonData = jsonEncode(drawingData);
 
       // 파일에 저장
@@ -149,8 +153,7 @@ class _PdfViewerScreenState extends State<PdfViewerScreen> {
             GestureDetector(
               onPanUpdate: (details) {
                 RenderBox renderBox = context.findRenderObject() as RenderBox;
-                Offset localPosition =
-                    renderBox.globalToLocal(details.globalPosition);
+                Offset localPosition = renderBox.globalToLocal(details.globalPosition);
 
                 if (_isDrawing) {
                   setState(() {
